@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  flutter:
+    # (1): 仮想環境をビルドする際に利用する Dockerfile を指定
+    build:
+      context: .
+      dockerfile: flutter/Dockerfile
+    # (2): Container へマウントしたいファイルを指定
+    volumes:
+      - ../rakuraku_reserve_front:/workspace/rakuraku_reserve_front:cached
+      # (Optional) VSCode settings
+      - ../.vscode:/workspace/.vscode:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    # (3): 環境変数の定義ファイルを指定
+    env_file:
+      - flutter/.flutter.env
