@@ -10,7 +10,9 @@ services:
       - ../rakuraku_reserve_front:/workspace/rakuraku_reserve_front:cached
       # (Optional) VSCode settings
       - ../.vscode:/workspace/.vscode:cached
-    command: /bin/sh -c "while sleep 1000; do :; done"
+      # GUIアプリ起動のためのX11環境マウント
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    command: /bin/sh -c "cd /workspace/rakuraku_reserve_front && fvm flutter pub get && while sleep 1000; do :; done"
     # (3): 環境変数の定義ファイルを指定
     env_file:
       - flutter/.flutter.env

@@ -1,15 +1,16 @@
 # Base image
-FROM dart:3.2.6-sdk
-
-# Maintainer
-LABEL maintainer="oku rinpei09107@gmail.com"
+FROM dart:3.3.0-sdk
 
 # Workdir
 WORKDIR /workspace
 
+# flutterに必要なパッケージ
+RUN apt update \
+    && apt install -y ninja-build cmake clang libgtk-3-dev
+
 # Install Flutter
 ARG PATH=/root/.pub-cache/bin:$PATH
-ARG FLUTTER_VERSION=3.16.0
+ARG FLUTTER_VERSION=3.19.0
 RUN dart pub global activate melos --verbose && \
     dart pub global activate fvm --verbose && \
     fvm doctor --verbose && \
@@ -18,6 +19,7 @@ RUN dart pub global activate melos --verbose && \
     fvm flutter config --enable-web --enable-linux-desktop --enable-macos-desktop --enable-windows-desktop --enable-android --enable-ios --enable-fuchsia && \
     # fvm flutter precache --verbose && \
     fvm flutter doctor --verbose
+
 
 # Set paths
 ENV FVM_ROOT=/root/.pub-cache
