@@ -43,11 +43,3 @@ RUN dart pub global activate melos --verbose && \
 # Set paths
 ENV FVM_ROOT=/root/.pub-cache
 ENV PATH $FVM_ROOT/bin:$PATH
-
-
-# Final image
-# FROM debian:buster-slim
-
-# COPY --from=build /workspace /workspace
-# COPY --from=build /opt /opt
-# COPY --from=build /root /root
