@@ -1,12 +1,32 @@
 # Base image
-FROM dart:3.3.0-sdk
+FROM dart:3.3.0-sdk As build
 
 # Workdir
 WORKDIR /workspace
 
 # flutterに必要なパッケージ
-RUN apt update \
-    && apt install -y ninja-build cmake clang libgtk-3-dev
+RUN apt-get update && apt install -y --fix-missing ninja-build cmake clang libgtk-3-dev wget gnupg unzip lib32stdc++6 lib32z1
+    
+# Android Studioのバージョンを指定(https://developer.android.com/studio/archive?hl=ja)
+ARG studio_version=2023.1.1.28 
+# Chromeインストール
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-chrome-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable && \
+    wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/${studio_version}/android-studio-${studio_version}-linux.tar.gz && \
+    tar -xvf android-studio-${studio_version}-linux.tar.gz -C /opt && \
+    rm android-studio-${studio_version}-linux.tar.gz
+
+# Android SDKのパスを設定
+ENV ANDROID_HOME /root/Android/Sdk
+RUN echo "export ANDROID_HOME=${ANDROID_HOME}" >> /root/.bashrc
+# Chromeのパスを設定
+ENV CHROME_EXECUTABLE /usr/bin/google-chrome
+# Android StudioのPATHを通す
+ENV PATH ${PATH}:/opt/android-studio/bin
+# Android SDKのパスを設定
+ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
 
 # Install Flutter
 ARG PATH=/root/.pub-cache/bin:$PATH
@@ -20,7 +40,14 @@ RUN dart pub global activate melos --verbose && \
     # fvm flutter precache --verbose && \
     fvm flutter doctor --verbose
 
-
 # Set paths
 ENV FVM_ROOT=/root/.pub-cache
 ENV PATH $FVM_ROOT/bin:$PATH
+
+
+# Final image
+# FROM debian:buster-slim
+
+# COPY --from=build /workspace /workspace
+# COPY --from=build /opt /opt
+# COPY --from=build /root /root

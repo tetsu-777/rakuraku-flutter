@@ -1,6 +1,8 @@
 手順
 
 ※MacOs の場合異なる可能性あり
+※MacOs の場合、.devcontainer\flutter\Dockerfile を編集する必要あり
+参照：https://qiita.com/kurun_pan/items/47614dec03575036675d#host-os%E3%81%8Cmacos%E3%81%AE%E5%A0%B4%E5%90%88
 
 1. 環境変数の設定
 
@@ -19,5 +21,5 @@
    - `docker compose up -d`
 
 5. コンテナに入り方＆アプリを起動方法
-   - `docker compose exec -it devcontainer-flutter-1 bash`
+   - `docker exec -it devcontainer-flutter-1 bash`
    - `cd rakuraku_reserve_front && fvm flutter run`
