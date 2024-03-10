@@ -14,6 +14,8 @@ services:
       - .AndroidStudioConfig:/root/.config/Google/AndroidStudio2023.1/
       # (Optional) Android SDK
       - .Sdk:/root/Android/Sdk/
+      # (Optional) fvm versions
+      - .fvm/versions/3.19.0/bin/cache:/root/fvm/versions/3.19.0/bin/cache
       # GUIアプリ起動のためのX11環境マウント
       - /tmp/.X11-unix:/tmp/.X11-unix
     command: /bin/sh -c "cd /workspace/rakuraku_reserve_front && fvm flutter pub get && while sleep 1000; do :; done"
