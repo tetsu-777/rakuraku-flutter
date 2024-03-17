@@ -2,7 +2,7 @@
 FROM dart:3.3.0-sdk As build
 
 # Workdir
-WORKDIR /workspace
+WORKDIR /workspace/rakuraku_reserve_front
 
 # flutterに必要なパッケージ
 RUN apt-get update && apt install -y --fix-missing ninja-build cmake clang libgtk-3-dev wget gnupg unzip lib32stdc++6 lib32z1

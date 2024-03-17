@@ -23,7 +23,7 @@
 5. コンテナに入り方＆アプリを起動
 
    - `docker exec -it devcontainer-flutter-1 bash`
-   - `cd rakuraku_reserve_front && fvm flutter run`
+   - `fvm flutter run`
 
 6. Android Studio 起動（初回のみ設定必要）
    - `studio.sh`
