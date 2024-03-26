@@ -138,12 +138,13 @@ class _LoginPageState extends State<LoginPage> {
       MaterialPageRoute(builder: (context) => HomePage()),
       );
   }else{
-    print('postが失敗しました');
+    // ログイン処理失敗時、SnackBar（画面下にエラー文表示）を出力する
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('ログインに失敗しました'),
-          backgroundColor: Colors.red,
-        ),);
+      SnackBar(
+        content: Text('ログインに失敗しました'),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 }
 }
