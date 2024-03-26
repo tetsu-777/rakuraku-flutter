@@ -3,6 +3,7 @@ import 'package:rakuraku_reserve_front/pages/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// ログイン画面表示のためのクラス
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -10,10 +11,14 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+// 画面表示内容
+// メールアドレス、パスワードの入力内容をPOSTする
+// ログインボタン押下時、loginメソッドでログイン処理する
 class _LoginPageState extends State<LoginPage> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
+  // 入力内容取得のためのコントローラーinitメソッド
   @override
   void initState() {
     super.initState();
@@ -21,13 +26,16 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController = TextEditingController();
   }
 
-    @override
+  // 入力内容取得のためのコントローラーdisposeメソッド
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
+  // 画面表示context指定メソッド
+  // 入力内容：メールアドレス、パスワード
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Container(
               margin: const EdgeInsets.all(20),
+              // メールアドレス入力フォーム
               child: TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -51,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               margin: const EdgeInsets.all(20),
+              // パスワード入力フォーム
               child: TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
@@ -58,19 +68,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+            // ログインボタン
+            // 押下時、ログイン処理する
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.deepOrange[300],
               ),
-              onPressed: ()=>login(_emailController.text,_passwordController.text)
-              // () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => HomePage()),
-                // );
-              // }
-              ,
+              onPressed: ()=>login(_emailController.text,_passwordController.text),
               child: const Text('ログイン'),
             ),
           ],
@@ -79,6 +84,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  // ログイン処理のためのメソッド
+  // 入力されたメールアドレス、パスワードをBodyに入れPOST処理する
+  // ログイン成功時、200ステータスが返る
+  // Cookieにsession_idが格納される
   Future<void> login(String email,password) async{
   final url = Uri.parse('http://localhost:8080/api/login');
   Map<String, String> headers = {'content-type': 'application/json'};
@@ -86,13 +95,14 @@ class _LoginPageState extends State<LoginPage> {
         'email': email,
         'password': password
       }));
+  // ログイン成功時、ホームページに遷移する
+  // 失敗時、エラーメッセージを表示する
   if(response.statusCode == 200){
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HomePage()),
       );
-  }
-  else{
+  }else{
     print('postが失敗しました');
     // ScaffoldMessenger.of(context).showSnackBar(
     //     SnackBar(
