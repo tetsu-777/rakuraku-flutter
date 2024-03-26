@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  // パスワード表示非表示フラグ
   bool _isObscure = true;
 
   // 入力内容取得のためのコントローラーinitメソッド
@@ -85,6 +86,8 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: _isObscure,
                   decoration: InputDecoration(
                     label: Text('パスワード'),
+                    // パスワード表示非表示実装
+                    // アイコン押下で_isObscureが反転する
                     suffixIcon: IconButton(
                       icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
                       onPressed: () {
@@ -104,7 +107,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: (){
                   if(_formKey.currentState!.validate()){
-                    print('バリデーションOK');
                     login(_emailController.text,_passwordController.text);
                   }
                 },
@@ -137,10 +139,11 @@ class _LoginPageState extends State<LoginPage> {
       );
   }else{
     print('postが失敗しました');
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: Text('Failed to send POST request'),
-    //     ),);
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('ログインに失敗しました'),
+          backgroundColor: Colors.red,
+        ),);
   }
 }
 }
