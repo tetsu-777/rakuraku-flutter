@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  bool _isObscure = true;
 
   // 入力内容取得のためのコントローラーinitメソッド
   @override
@@ -38,47 +39,79 @@ class _LoginPageState extends State<LoginPage> {
   // 入力内容：メールアドレス、パスワード
   @override
   Widget build(BuildContext context) {
+    const _formKey=GlobalObjectKey<FormState>('FORM_KEY');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('ログイン画面'),
         backgroundColor: Colors.deepOrange[300],
       ),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(20),
-              // メールアドレス入力フォーム
-              child: TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  label: Text('メールアドレス'),
-                  fillColor: Colors.black,
+        child: Form(
+          key:_formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.all(20),
+                // メールアドレス入力フォーム
+                child: TextFormField(
+                  controller: _emailController,
+                  validator: (value){
+                    // メールアドレス形式の正規表現
+                    final emailPattern = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                    if(value == null || value.isEmpty || !emailPattern.hasMatch(value)){
+                      return 'メールアドレスを入力してください';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    label: Text('メールアドレス'),
+                    fillColor: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              // パスワード入力フォーム
-              child: TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  label: Text('パスワード'),
+              Container(
+                margin: const EdgeInsets.all(20),
+                // パスワード入力フォーム
+                child: TextFormField(
+                  controller: _passwordController,
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'パスワードを入力してください';
+                    }
+                    return null;
+                  },
+                  obscureText: _isObscure,
+                  decoration: InputDecoration(
+                    label: Text('パスワード'),
+                    suffixIcon: IconButton(
+                      icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() => _isObscure = !_isObscure
+                        );
+                      },
+                    )
+                  ),
                 ),
               ),
-            ),
-            // ログインボタン
-            // 押下時、ログイン処理する
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.deepOrange[300],
+              // ログインボタン
+              // 押下時、ログイン処理する
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.deepOrange[300],
+                ),
+                onPressed: (){
+                  if(_formKey.currentState!.validate()){
+                    print('バリデーションOK');
+                    login(_emailController.text,_passwordController.text);
+                  }
+                },
+                child: const Text('ログイン'),
               ),
-              onPressed: ()=>login(_emailController.text,_passwordController.text),
-              child: const Text('ログイン'),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
