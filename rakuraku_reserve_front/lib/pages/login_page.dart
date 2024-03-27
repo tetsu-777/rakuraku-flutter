@@ -47,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('ログイン画面'),
         backgroundColor: Colors.deepOrange[300],
+        leading: const SizedBox.shrink(),
       ),
       body: Center(
         child: Form(

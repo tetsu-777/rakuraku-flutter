@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rakuraku_reserve_front/pages/home_page.dart';
+import 'package:rakuraku_reserve_front/pages/login_page.dart';
 import 'package:rakuraku_reserve_front/pages/send_reset_password_mail_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -168,9 +168,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   // パスワード再設定処理成功時、ホームページに遷移する
   // 失敗時、エラーメッセージを表示する
   if(response.statusCode == 200){
-    Navigator.push(
+    // SnackBar（画面下にエラー文表示）を出力する
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('パスワード変更完了しました'),
+        backgroundColor: Colors.blue,
+      ),
+    );
+    Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+      MaterialPageRoute(builder: (context) => LoginPage()),
       );
   }else{
     // パスワード再設定処理処理失敗時、SnackBar（画面下にエラー文表示）を出力する
