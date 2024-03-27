@@ -62,8 +62,11 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
                     validator: (value){
                       // メールアドレス形式の正規表現
                       final emailPattern = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                      if(value == null || value.isEmpty || !emailPattern.hasMatch(value)){
-                        return 'パスワーそ再設定の案内を受け取る\nメールアドレスを入力してください';
+                      if(value == null || value.isEmpty){
+                        return 'パスワード再設定の案内を受け取る\nメールアドレスを入力してください';
+                      }
+                      if(!emailPattern.hasMatch(value)){
+                        return 'メールアドレス形式で入力してください'
                       }
                       return null;
                     },
