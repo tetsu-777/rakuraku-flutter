@@ -36,7 +36,7 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('パスワード再設定メール送信画面'),
+        title: const Text('パスワード再設定\nメール送信画面'),
         backgroundColor: Colors.deepOrange[300],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
