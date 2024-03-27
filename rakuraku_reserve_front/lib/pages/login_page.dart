@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rakuraku_reserve_front/pages/home_page.dart';
+import 'package:rakuraku_reserve_front/pages/send_reset_password_mail_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   // 入力内容：メールアドレス、パスワード
   @override
   Widget build(BuildContext context) {
-    const _formKey=GlobalObjectKey<FormState>('FORM_KEY');
+    const _formKey=GlobalObjectKey<FormState>('LOGIN_FORM_KEY');
 
     return Scaffold(
       appBar: AppBar(
@@ -111,6 +112,15 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 child: const Text('ログイン'),
+              ),
+              TextButton(
+                onPressed:(){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SendResetPasswordMailPage()),
+                    );
+                },
+                child: Text('パスワードを忘れた場合'),
               ),
             ],
           ),
