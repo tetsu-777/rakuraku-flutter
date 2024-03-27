@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rakuraku_reserve_front/pages/home_page.dart';
+import 'package:rakuraku_reserve_front/pages/reset_password_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -59,8 +59,11 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
                   validator: (value){
                     // メールアドレス形式の正規表現
                     final emailPattern = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                    if(value == null || value.isEmpty || !emailPattern.hasMatch(value)){
+                    if(value == null || value.isEmpty){
                       return 'パスワーそ再設定の案内を受け取る\nメールアドレスを入力してください';
+                    }
+                    if(!emailPattern.hasMatch(value)){
+                      return 'メールアドレス形式で入力してください';
                     }
                     return null;
                   },
@@ -105,7 +108,7 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
     if(response.statusCode == 200){
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => ResetPasswordPage()),
         );
     }else{
       // パスワード再設定メール送信失敗時、SnackBar（画面下にエラー文表示）を出力する
