@@ -3,6 +3,7 @@ import 'package:rakuraku_reserve_front/pages/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// パスワード再設定メール送信画面
 class SendResetPasswordMailPage extends StatefulWidget {
   const SendResetPasswordMailPage({super.key});
 
@@ -27,6 +28,8 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
     super.dispose();
   }
 
+  // パスワード再設定メール画面表示context指定メソッド
+  // 入力内容：メールアドレス
   @override
   Widget build(BuildContext context) {
     const _formKey=GlobalObjectKey<FormState>('SEND_RESET_PASSWORD_EMAIL_FORM_KEY');
@@ -97,7 +100,7 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
     final response = await http.post(url, headers: headers,body: json.encode({
           'email': email,
         }));
-    // ログイン成功時、ホームページに遷移する
+    // パスワード再設定メール送信成功時、ホームページに遷移する
     // 失敗時、エラーメッセージを表示する
     if(response.statusCode == 200){
       Navigator.push(
@@ -105,7 +108,7 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
         MaterialPageRoute(builder: (context) => HomePage()),
         );
     }else{
-      // ログイン処理失敗時、SnackBar（画面下にエラー文表示）を出力する
+      // パスワード再設定メール送信失敗時、SnackBar（画面下にエラー文表示）を出力する
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('パスワード再設定メールの送信に失敗しました'),
