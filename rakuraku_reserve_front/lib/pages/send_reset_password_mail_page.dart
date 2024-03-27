@@ -66,7 +66,7 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
                         return 'パスワード再設定の案内を受け取る\nメールアドレスを入力してください';
                       }
                       if(!emailPattern.hasMatch(value)){
-                        return 'メールアドレス形式で入力してください'
+                        return 'メールアドレス形式で入力してください';
                       }
                       return null;
                     },
@@ -110,19 +110,6 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
   // 入力されたメールアドレスをBodyに入れPOST処理する
   // メール送信成功時、200ステータスが返る
   Future<void> sendResetPasswordEmail(String email) async{
-<<<<<<< HEAD
-    final url = Uri.parse('http://localhost:8080/api/users/forgot-password');
-    Map<String, String> headers = {'content-type': 'application/json'};
-    final response = await http.post(url, headers: headers,body: json.encode({
-          'email': email,
-        }));
-    // パスワード再設定メール送信成功時、ホームページに遷移する
-    // 失敗時、エラーメッセージを表示する
-    if(response.statusCode == 200){
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ResetPasswordPage()),
-=======
     // ローディング開始
     setState(() {
       _loading = true;
@@ -139,7 +126,7 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
       if(response.statusCode == 200){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => ResetPasswordPage()),
           );
       }else{
         // パスワード再設定メール送信失敗時、SnackBar（画面下にエラー文表示）を出力する
@@ -148,7 +135,6 @@ class _SendResetPasswordMailPageState extends State<SendResetPasswordMailPage>  
             content: Text('パスワード再設定メールの送信に失敗しました'),
             backgroundColor: Colors.red,
           ),
->>>>>>> 7-send_change_password_email
         );
       }
     }finally{
