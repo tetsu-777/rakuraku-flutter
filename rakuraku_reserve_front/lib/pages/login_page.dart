@@ -47,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('ログイン画面'),
         backgroundColor: Colors.deepOrange[300],
+        leading: const SizedBox.shrink(),
       ),
       body: Center(
         child: Form(
@@ -62,8 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (value){
                     // メールアドレス形式の正規表現
                     final emailPattern = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                    if(value == null || value.isEmpty || !emailPattern.hasMatch(value)){
+                    if(value == null || value.isEmpty){
                       return 'メールアドレスを入力してください';
+                    }
+                    if(!emailPattern.hasMatch(value)){
+                      return 'メールアドレス形式で入力してください';
                     }
                     return null;
                   },
